@@ -417,9 +417,4 @@ Recording all the maintenance operations in your system is very important for de
 
 
 
-| **Sara Adel** | 1 | 35 |
-| **Omar Abdelzaher** | 2 | 11|
 
-# Submitted To :
-## Dr. Bassel Tawfik
-## Eng. Eman Marzban
