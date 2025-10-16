@@ -416,15 +416,7 @@ Recording all the maintenance operations in your system is very important for de
 
 
 
-# About Us :
-## Team Number : 6
-## Team Members :
 
-| Name | Section | B.N |
-| :----: | :----: | :----: |
-| **Remon Albear** | 1 | 31 |
-| **Salma Ayman** | 1 | 37 |
-| **Rawan Sayed** | 1 | 30 |
 | **Sara Adel** | 1 | 35 |
 | **Omar Abdelzaher** | 2 | 11|
 
