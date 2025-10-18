@@ -1,0 +1,67 @@
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="page-wrapper" style="height: auto;" >
+                <div class="page-content--bge5" style="height: auto;">
+                    <div class="container" style="height: auto;">
+                        <div class="login-wrap">
+                            <div class="login-content">
+                                <div class="login-logo">
+                                
+                                    <img src="images/icon/onda_logo.png" width="64" height="64" alt="Cool Admin" /> <strong>ONDA</strong></a>        
+                                </div>
+                                <div class="login-form" style="height: auto;">
+                                    <form action="/technicienEngineer/add" method="POST" enctype="multipart/form-data">
+                                        <input type="text" hidden required name="DSSN"  placeholder="New First name" value="{{ clinicalEngineer.DSSN}}" class="form-control">
+                                            <input type="text"  hidden  name="Image" value="{{ clinicalEngineer.Image }}" >
+                                            <input type="text"  hidden  name="edit" value="edit" >
+                                        <div class="form-group">
+                                            <label class=" form-control-label">Prénom</label>
+                                            <input type="text" required name="FName"  placeholder="Nouveau Prénom" value="{{ clinicalEngineer.FName}}" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class=" form-control-label">Nom</label>
+                                            <input type="text" required name="LName" placeholder="Nouveau Nom" value="{{ clinicalEngineer.LName}}" class="form-control">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class=" form-control-label">Téléphone</label>
+                                            <input type="text" required name="Phone" placeholder="Nouveau Téléphone"  value="{{ clinicalEngineer.Phone}}" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class=" form-control-label">Age</label>
+                                            <input type="text"  required name="Age" placeholder="Nouveau Age" value="{{ clinicalEngineer.Age}}" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class=" form-control-label">Email</label>
+                                            <input type="email" required name="Email" placeholder="Nouveau Email" value="{{ clinicalEngineer.Email}}" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class=" form-control-label">adresse</label>
+                                            <input type="text" required name="Address" placeholder="Nouvelle adresse" value="{{ clinicalEngineer.Adress}}" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class=" form-control-label">Heures de travail</label>
+                                            <input type="text" required name="workHours" placeholder="Nouveau Heures de travail" value="{{ clinicalEngineer.WorkHours}}" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class=" form-control-label">Service</label>
+                                            <select name="Department"required id="select" class="form-control">
+                                {{#each Departs}}
+                                    <option value="{{this.Name}}">{{this.Name}} </option>
+                                {{/each}}
+                            </select>
+                                        </div>                                        
+                                        <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">ADD</button>
+                                
+                                    </form>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+
+        </div>
+    </div>        
+</div>

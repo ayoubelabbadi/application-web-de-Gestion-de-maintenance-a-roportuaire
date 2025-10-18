@@ -1,0 +1,151 @@
+<style>
+
+    /* Styles pour le tableau */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+</style>
+<div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE -->
+                                <h3 class="title-5 m-b-35">SERVICE TELECOMMUNICATION ET INFORMATIQUE</h3>
+                                <div class="table-data__tool">
+                                    
+                                     <div  class="table-data__tool-right">
+                                        <a href="#" data-toggle="modal" data-target="#modalAppointment" class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                            <i class="zmdi zmdi-plus"></i>Add SERVICE IT</a>
+                                    </div>
+                                </div>
+                                <div class="table-responsive table-responsive-data2">
+                                    <table class="table table-data2">
+                                        <thead>
+                                            <tr>
+                                                <th>Nom</th>
+                                                <th>Code</th>
+                                                <th>Emplacement</th>
+                                                <!--<th>Nbr d’heures Maintenance de réparation  planifié</th>-->
+                                                <th>Ingénieur/Technicien</th>
+                                                <th>Équipement</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                       {{#if hasDepartment }} 
+                                        <tbody>
+                                           {{#each departments }} 
+                                                <tr class="tr-shadow">
+                                                    <td>{{ this.Name }}</td>
+                                                    <td>
+                                                        <span class="block-email">{{ this.Code }}</span>
+                                                    </td>
+                                                    <td class="desc">{{ this.Location }}</td>
+                                                    <!--<td>{{ this.TotalHoursP }}</td>-->
+                                                    <td>{{ this.Engineers }}</td>
+                                                    <td>{{ this.Equipments }}</td> 
+                                                    <td>
+                                                        <div class="table-data-feature">
+                                                         <a href="/department/edit/{{ this.Code }}" class="item" data-toggle="tooltip" data-placement="top" title="Modifier">
+                                                               <i class="zmdi zmdi-edit"></i>
+                                                        </a>
+                                                        <a href="/department/delete/{{ this.Code }}" class="item" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                                                               <i class="zmdi zmdi-delete"></i>
+                                                        </a>
+                                                        <div class="table-data-feature">
+                                                            <a href="/report/department/equipments/{{ this.Code }}" class="item" data-toggle="tooltip" data-placement="top" title="More">
+                                                                <i class="zmdi zmdi-more"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="spacer"></tr>
+                                            {{/each }}
+                                        </tbody>
+                                       {{/if}} 
+                                    </table>
+                                </div>
+                                <!-- END DATA TABLE -->
+                            </div>
+                        </div>
+                            
+                    </div>
+                </div>
+</div>
+
+<!-- POPUP-->
+<div class="modal fade" id="modalAppointment" tabindex="-1" role="dialog" aria-labelledby="modalAppointmentLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          
+          <div class="modal-body">
+            <form method="POST" action="/department/add">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="login-logo">
+                    
+                    <img src="images/icon/onda_logo.png" width="64" height="64" alt="Cool Admin" /> <strong>ONDA</strong></a>
+                </div>
+                <div class="login-form">
+                        <div class="form-group">
+                            <label class=" form-control-label">Code</label>
+                            <input type="text" name="Code" placeholder="Entrez un Code"  required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class=" form-control-label">SERVICE IT</label>
+                            <input type="text" name="Name" placeholder="Entrez un SERVICE IT"  required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class=" form-control-label">Emplacement</label>
+                            <input type="text" name="Location" placeholder="Entrez un Emplacement" required class="form-control">
+                        </div>
+                        
+                </div>
+
+                <div class="form-group">
+                            <label class=" form-control-label">Nbr d’heures Maintenance de réparation  planifié</label>
+                            <input type="number" name="TotalHoursP" placeholder="Entrez un Nbr d’heures Maintenance de réparation  planifié" required class="form-control">
+                        </div>
+                        
+                
+
+                <div class="form-group">
+                            <label class=" form-control-label">Pondération</label>
+                            <input type="number" name="Ponderation" placeholder="Entrez un Nbr de Pondération " required class="form-control">
+                        </div>
+                        
+
+                <div class="form-group">
+                            <label class=" form-control-label">TRP</label>
+                            <input type="number" name="Trp" placeholder="Entrez un Nbr de Pondération " required class="form-control">
+                        </div>
+                        <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">ADD</button>
+                </div>
+            </form>
+          </div>  
+        </div>
+    </div>
+</div>

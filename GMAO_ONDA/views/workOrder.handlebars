@@ -1,0 +1,176 @@
+<style>
+
+    /* Styles pour le tableau */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+</style>
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- DATA TABLE -->
+                    <h3 class="title-5 m-b-35">Ordres de travail</h3>
+                    <div class="table-data__tool">
+                        
+                            <div  class="table-data__tool-right">
+                            <a href="#" data-toggle="modal" data-target="#modalAppointment" class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                <i class="zmdi zmdi-plus"></i>Add Ordres de travail</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive table-responsive-data2">
+                        <table class="table table-data2">
+                            <thead>
+                                <tr>
+                                    <!--<th>Code</th>-->
+                                    <th>Desciption</th>
+                                    <th>Date de début</th>
+                                    <th>Date de fin</th>
+                                    <th>Date de début Time</th>
+                                    <th>Date de fin Time</th>
+                                    <th>Durée en heures</th>
+                                    <th>Coût</th>
+                                    <th>Priorité</th>
+                                    <th>Équipement</th>
+                                    <th>Ingénieur/Technicien</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                           {{#if hasWorkOrder}} 
+                            <tbody>
+                               {{#each Workorders }} 
+
+                                <tr class="tr-shadow">
+                                    <!--<td>{{this.Code}}</td>-->
+                                    <td>{{this.Description}}</td>
+                                    <td>{{this.StartDate}}</td>
+                                    <td>{{this.EndDate}}</td>
+                                    <td>{{this.AdditionalStartDate}}</td>
+                                    <td>{{this.AdditionalEndDate}}</td>
+                                    <td>{{this.Duration}}</td>
+                                    <td>{{this.Cost}}</td>
+                                    <td {{#if this.med}} class="desc" {{/if}}><span {{#if this.high}}class="status--denied"{{/if}} {{#if this.low}}class="status--process" {{/if}}>{{this.Priority}}</span></td>
+                                    <td> <img src="images/{{this.EquipmentImage}}" style="height: 50px; width:50px; border-radius: 50%;" > {{this.EquipmentName}} {{this.EquipmentCode}}</td>
+                                    <td>  <img src="images/{{this.ClinicalEnginnerImage}}" style="height: 50px; width:50px; border-radius: 50%;" > {{this.ClinicalEnginner}}</td>
+                                   
+                                    <td>
+                                       <div class="table-data-feature">
+                                                <a href="/workOrder/edit/{{ this.Code }}" class="item" data-toggle="tooltip" data-placement="top" title="Modifier">
+                                                    <i class="zmdi zmdi-edit"></i>
+                                                </a>
+                                                <a href="/workOrder/delete/{{ this.Code }}" class="item" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                                                    <i class="zmdi zmdi-delete"></i>
+                                                </a>        
+
+                                            </div>
+                                    </td>
+                                </tr>
+                                <tr class="spacer"></tr>
+                              {{/each}} 
+                             </tbody>
+                           {{/if}} 
+                        </table>
+                    </div>
+                    <!-- END DATA TABLE -->
+                </div>
+            </div>
+                
+        </div>
+    </div>
+</div>
+
+<!-- POPUP-->
+<div class="modal fade" id="modalAppointment" tabindex="-1" role="dialog" aria-labelledby="modalAppointmentLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          
+          <div class="modal-body">
+            <form method="POST" action="/workOrder/add">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="login-logo">
+                   
+                    <img src="images/icon/onda_logo.png" width="64" height="64" alt="Cool Admin" /> <strong>ONDA</strong></a>
+                </div>
+                <div class="login-form">
+                        <div class="form-group">
+                            <label class=" form-control-label">Desciption</label>
+                            <input type="text" required name="Description" placeholder="Entrez une Description  " class="form-control">
+                        </div>
+                       <div class="form-group">
+                            <label class=" form-control-label">Code de l'Équipement</label>
+                                <select name="EquipmentCode"required id="select" class="form-control">
+                                {{#each Equipments}}
+                                    <option value="{{this.Code}}">{{this.Name}} - {{this.Code}} - {{this.DepartmentName}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class=" form-control-label">Ingénieur/Technicien DSSN</label>
+                           
+                            <select name="ClinicalEngineerDSSN"required id="select" class="form-control">
+                                {{#each Engineers}}
+                                    <option value="{{this.DSSN}}">{{this.FName}}{{this.LName}} {{this.DSSN}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class=" form-control-label">Date de début</label>
+                            <input type="date"  required name="StartDATE" placeholder="Enter Start Date" class="form-control">
+                        </div>
+                         <div class="form-group">
+                            <label class=" form-control-label">Date de fin</label>
+                            <input type="date"  required name="EndDATE" placeholder="Enter End Date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class=" form-control-label">Date de début & Time</label>
+                            <input type="datetime-local"  required name="AdditionalStartDate" placeholder="Enter Start Date" class="form-control">
+                        </div>
+                         <div class="form-group">
+                            <label class=" form-control-label">Date de fin & Time</label>
+                            <input type="datetime-local"  required name="AdditionalEndDate" placeholder="Enter End Date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class=" form-control-label">Coût</label>
+                            <input type="number" required name="Cost" placeholder="Entrez un nombre" class="form-control">
+                        </div>
+                         <div class="form-group">
+                                            <label class=" form-control-label">Priorité</label>
+                                            <select name="Priority"required id="select"  class="form-control" >
+                                                <option value="Low">Low</option>
+                                                <option value="Medium">Medium</option>
+                                                <option value="High">High</option>
+                                            </select>
+                        </div>       
+                        <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">ADD</button>
+                    </form>  
+                </div>
+            </form>
+          </div>  
+        </div>
+    </div>     
+</div>  

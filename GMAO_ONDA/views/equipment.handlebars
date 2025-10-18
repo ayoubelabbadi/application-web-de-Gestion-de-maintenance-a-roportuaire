@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+#myInput, #departmentFilter {
+  font-size: 16px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  width: 300px; /* Ajustez la largeur ici */
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+.filter-container {
+  margin-bottom: 12px;
+}
+
+.filter-container select {
+  font-size: 16px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 200px; /* Ajustez la largeur ici */
+}
+</style>
+</head>
+<body>
+
+<div class="main-content">
+    <div class="section__content section__content--p30"> 
+        <div class="container-fluid">
+            
+
+            <!-- Filter by Department -->
+            <div class="filter-container">
+                
+                <select id="departmentFilter" onchange="filterByDepartment()">
+                    <option value="all">Tous les Services</option>
+                    {{#each Departs}}
+                        <option value="{{this.Name}}">{{this.Name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <!-- Search Box -->
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Chercher un Equipement..." title="Type in a name">
+
+             <div class="table-data__tool">
+                <a href="#" data-toggle="modal" data-target="#modalAppointment" class="au-btn au-btn-icon au-btn--green au-btn--small">
+                <i class="zmdi zmdi-plus"></i>Add Équipement</a>
+            </div>
+
+            {{#if hasEquipments}}  
+            <div class="row">
+                {{#each equipments }}    
+                    <div class="col-md-4" data-department="{{this.DepartmentCode}}">
+                        <div class="card" style="width: auto;">
+                            <img class="card-img-top" src="images/{{this.Image}}" alt="Card image cap" style="height: 250px;">
+                            <div class="card-body">
+                                <div class="card-text">Code : <span style="color:#0009b3">{{ this.Code }}</span></div>
+                                <div class="card-text">Nom : <span style="color:#0009b3" class="name">{{ this.Name }}</span></div>
+                                <div class="card-text">Modèle : <span style="color:#0009b3">{{ this.Model}}</span></div>
+                                <div class="card-text">Numéro de Série : <span style="color:#0009b3">{{ this.SerialNumber }}</span></div>
+                                <div class="card-text">Emplacement : <span style="color:#00b354">{{ this.Location }}</span></div>
+                                <div class="card-text">Service : <span style="color:#dd0000">{{ this.DepartmentCode }}</span></div>
+                                <div class="card-text">PM : <span style="color:#0009b3">{{ this.PM }}</span></div>
+                            </div>
+                            <div class="table-data-feature">
+                                <a href="/equipment/edit/{{ this.Code }}" class="item" data-toggle="tooltip" data-placement="top" title="Modifier" >
+                                    <i class="zmdi zmdi-edit"></i>
+                                </a>
+                                <a href="/equipment/delete/{{ this.Code }}" class="item" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                                    <i class="zmdi zmdi-delete"></i>
+                                </a>
+                                <a href="/report/equipment/installation/{{ this.Code }}" class="item" data-toggle="tooltip" data-placement="top" title="More">
+                                    <i class="zmdi zmdi-more"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}} 
+            </div>
+            {{/if }} 
+
+        </div>
+    </div>
+</div>
+<!-- END PAGE CONTAINER-->    
+
+<!-- POPUP-->
+<div class="modal fade" id="modalAppointment" tabindex="-1" role="dialog" aria-labelledby="modalAppointmentLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <form method="POST" action="/equipment/add" enctype="multipart/form-data">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="login-logo">
+                    <img src="images/icon/onda_logo.png" width="64" height="64" alt="Cool Admin" /> <strong>ONDA</strong></a>
+                </div>
+                <div class="login-form">
+                    <div class="form-group">
+                        <label class="form-control-label">Code</label>
+                        <input type="text" required name="Code" placeholder="Entrez le Code" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Nom</label>
+                        <input type="text" required name="Name" placeholder="Entrez Votre Nom" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Modèle<span class="optional"> (optionnelle)</span></label>
+                        <input type="text"  name="Model" placeholder="Entrez le Nom de Modèle" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Numéro de série<span class="optional"> (optionnelle)</span></label>
+                        <input type="text"  name="SerialNumber" placeholder="Entrez le Numéro de série" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Fabricant</label>
+                        <input type="text" required name="Manufacturer" placeholder="Entrez le Fabricant" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Photo<span class="optional"> (optionnelle)</span></label>
+                        <input type="file" name="image" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Coût</label>
+                        <input type="number"  name="Cost" placeholder="Entrez le Coût" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-control-label">Date d'arrivée</label>
+                        <input type="date" required name="ArrivalDate" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Date d'installation</label>
+                        <input type="date" required name="InstallationDate" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-control-label">Date de garantie<span class="optional"> (optionnelle)</span></label>
+                        <input type="date"  name="WarrantyDate" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Emplacement</label>
+                        <input type="text" required name="Location" placeholder="Entrez l'Emplacement" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Code de l'Agent</label>
+                        <select name="Agent" required id="select" class="form-control">
+                            {{#each Agents}}
+                                <option value="{{this.Id}}">{{this.Name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">PM</label>
+                        <select name="PM" required id="select" class="form-control">
+                            <option value="Monthly">Monthly</option>
+                            <option value="Annualy">Annualy</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Service</label>
+                        <select name="Department" required id="select" class="form-control">
+                            {{#each Departs}}
+                                <option value="{{this.Name}}">{{this.Name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                       <label class="form-control-label">Equipement sous contrat n°</label>
+                       <input type="text" name="Eqcontrat" placeholder="Entrez le Contrat" class="form-control">
+                   </div>
+                   <div class="form-group">
+                       <label class="form-control-label">Observation</label>
+                      <input type="text" name="Observation" placeholder="Entrez vos Observations" class="form-control">
+                   </div>
+
+                    <div class="form-group">
+                        <label class="form-control-label">Notes</label>
+                        <textarea name="Notes" placeholder="Toutes les Notes" class="form-control"></textarea>
+                    </div>
+                    <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">ADD</button>
+                </div>
+            </form>
+          </div>  
+        </div>
+    </div>     
+</div>  
+
+<script>
+function myFunction() {
+  var input, filter, rows, nameElement, nameText, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  rows = document.querySelectorAll('.row > .col-md-4');
+  for (i = 0; i < rows.length; i++) {
+    nameElement = rows[i].querySelector('.card-body .card-text .name');
+    if (nameElement) {
+      nameText = nameElement.textContent || nameElement.innerText;
+      if (nameText.toUpperCase().indexOf(filter) > -1 || filter === '') {
+        rows[i].style.display = "";
+      } else {
+        rows[i].style.display = "none";
+      }
+    }
+  }
+}
+
+function filterByDepartment() {
+  var departmentFilter, selectedDepartment, items, i;
+  departmentFilter = document.getElementById("departmentFilter");
+  selectedDepartment = departmentFilter.value;
+  items = document.querySelectorAll('.row > .col-md-4');
+
+  for (i = 0; i < items.length; i++) {
+    if (selectedDepartment === "all" || items[i].getAttribute("data-department") === selectedDepartment) {
+      items[i].style.display = "";
+    } else {
+      items[i].style.display = "none";
+    }
+  }
+}
+</script>
+
+</body>
+</html>

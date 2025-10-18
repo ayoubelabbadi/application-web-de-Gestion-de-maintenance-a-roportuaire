@@ -1,0 +1,130 @@
+<style>
+
+    /* Styles pour le tableau */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+</style>
+
+<!-- views/dashboard.hbs -->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- DATA TABLE -->
+                   
+                    <!-- END DATA TABLE -->
+
+                    <!-- Total Hours per Department -->
+                    <h3 class="title-5 m-b-35">Tableau de Bord Mensuel TI</h3>
+                    <div class="table-scroll">
+                        <div class="table-responsive table-responsive-data2">
+                            <table class="table table-data2">
+                                <thead>
+                                    <!-- Ajoutez ce code au-dessus ou en-dessous de votre tableau -->
+                                
+                                <div class="table-actions">
+                                    <button id="export-dashboard" class="btn btn-success">Exporter en Excel</button>
+                                </div>
+
+                                    <tr>
+                                        <th>Équipements IT</th>
+                                        <th>Équipements</th>
+                                        <th>Nbr d’heures Maintenance de réparation non planifié</th>
+                                        <th>Nbr d’heures Maintenance d'arrêt non Planifié</th>
+                                        <th>Nbr de panne Arrêt non Planifié</th>
+                                        <th>Nbr d’heures Maintenance de réparation planifié</th>
+                                        <th>Nbr d’heures Maint de réparation planifié et non planifié</th>
+                                        <th>Nombre de panne et réparation</th>
+                                        <th>Nbr d’heures disponibilité</th>
+                                        <th>Taux de Disponibilité</th>
+                                        <th>Taux de Dispo %</th>
+                                        <th>TRP %</th>
+                                        <th>Pondération</th>
+                                        <th>Taux de Pondération</th>
+                                        <th>MTBF</th>
+                                        <th>Taux MTBF</th>
+                                        <th>MTTR</th>
+                                        <th>Taux MTTR</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each DepartmentHours}}
+                                        <tr class="tr-shadow">
+                                            <td>{{this.Name}}</td>
+                                            <td>{{this.EquipmentCount}}</td>
+                                            <td>{{this.TotalHours}}</td>
+                                            <td>{{this.TotalBreakdownDuration}}</td>
+                                            <td>{{this.BreakdownCount}}</td>
+                                            <td>{{this.TotalHoursP}}</td>
+                                            <td>{{this.TotalHoursSum}}</td>
+                                            <td>{{this.TotalBreakdownRepairs}}</td>
+                                            <td>{{this.TotalAvailableHours}}</td>
+                                            <td>{{this.AvailabilityRate}}</td>
+                                            <td>{{this.AvailabilityRate1}}</td>
+                                            <td>{{this.Trp}}</td>
+                                            <td>{{this.Ponderation}}</td>
+                                            <td>{{this.TauxPond}}</td>
+                                            <td>{{this.MTBF}}</td>
+                                            <td>{{this.TauxMTBF}}</td>
+                                            <td>{{this.MTTR}}</td>
+                                            <td>{{this.TauxMTTR}}</td>
+                                             
+
+                                        </tr>
+                                        <tr class="spacer"></tr>
+                                    {{/each}}
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- POPUP -->
+<div class="modal fade" id="modalAppointment" tabindex="-1" role="dialog" aria-labelledby="modalAppointmentLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form method="POST" action="/dashbord/add">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="login-logo">
+                        <img src="images/icon/onda_logo.png" width="64" height="64" alt="ONDA Logo" /> <strong>ONDA</strong>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('export-dashboard').addEventListener('click', function() {
+    window.location.href = '/export-dashboard'; // Assurez-vous que cette URL correspond à votre route
+});
+</script>
+

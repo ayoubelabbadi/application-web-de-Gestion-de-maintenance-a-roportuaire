@@ -1,0 +1,146 @@
+<style>
+
+    /* Styles pour le tableau */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+</style>
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+        
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- DATA TABLE -->
+                    <h3 class="title-5 m-b-35">Agents/Fournisseurs</h3>
+                    <div class="table-data__tool">
+                        
+                            <div  class="table-data__tool-right">
+                            <a href="#" data-toggle="modal" data-target="#modalAppointment" class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                <i class="zmdi zmdi-plus"></i>Agent/Fournisseur</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive table-responsive-data2">
+                        <table class="table table-data2">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nom</th>
+                                    <th>adresse</th>
+                                    <th>Téléphone</th>
+                                    <th>Email</th>
+                                    <th>Notes</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                           {{#if hasAgentSupplier}} 
+                             <tbody>
+                               {{#each agentSuppliers }} 
+                                    <tr class="tr-shadow">
+                                        <td>{{ this.Id }}</td>
+                                        <td>
+                                            <span >{{ this.Name }}</span>
+                                        </td>
+                                        <td >{{ this.Adress }}    </td>
+                                        <td>0{{ this.Phone}}</td>
+                                        <td><span class="block-email">{{ this.Email }}</span></td>
+                                        <td>{{ this.Notes}}</td>
+                                        <td>
+                                            <div class="table-data-feature">
+                                                <a href="/agentSupplier/edit/{{ this.Id }}" class="item" data-toggle="tooltip" data-placement="top" title="Modifier">
+                                                    <i class="zmdi zmdi-edit"></i>
+                                                </a>
+                                                <a href="/agentSupplier/delete/{{ this.Id }}" class="item" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                                                    <i class="zmdi zmdi-delete"></i>
+                                                </a>    
+
+                                                <!--
+                                                <a href="/report/agent/spareParts/{{ this.Id }}" class="item" data-toggle="tooltip" data-placement="top" title="More">
+                                                    <i class="zmdi zmdi-more"></i>
+                                                </a>
+                                                -->
+
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="spacer"></tr>
+                               {{/each}} 
+                             </tbody>
+                           {{/if}} 
+                        </table>
+                    </div>
+                    <!-- END DATA TABLE -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- POPUP-->
+<div class="modal fade" id="modalAppointment" tabindex="-1" role="dialog" aria-labelledby="modalAppointmentLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          
+          <div class="modal-body">
+            <form method="POST" action="/agentSupplier/add">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="login-logo">
+                    <img src="images/icon/onda_logo.png" width="64" height="64" alt="Cool Admin" /> <strong>ONDA</strong></a>
+                </div>
+                <div class="login-form">
+                        <div class="form-group">
+                            <label class=" form-control-label">ID</label>
+                            <input type="text" name="Id" required placeholder="Entrez ID" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class=" form-control-label">Nom</label>
+                            <input type="text" name="Name" required placeholder="Entrez Votre Nom" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class=" form-control-label">adresse</label>
+                            <input type="text" name="Address"  required placeholder="Entrez Votre adresse" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class=" form-control-label">Téléphone</label>
+                            <input type="phone" name="Phone" required placeholder="Entrez Votre Téléphone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class=" form-control-label">Email</label>
+                            <input type="email" required name="Email" placeholder="Entrez Votre Email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class=" form-control-label">Notes</label>
+                            <textarea type="text" name="Notes" placeholder="Entrez une Note" class="form-control"></textarea>
+                        </div>
+                        <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">ADD</button>
+                </div>
+            </form>
+          </div>  
+        </div>
+    </div>     
+</div>  

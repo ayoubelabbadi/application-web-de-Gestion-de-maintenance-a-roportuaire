@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maintenance</title>
+<!-- Inclure les fichiers CSS nécessaires -->
+<link rel="stylesheet" href="path/to/your/css/styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {
+  
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+
+form.example {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;   
+  flex: 1;
+  background: #f1f1f1;
+}
+
+form.example button {
+  padding: 15.4px;
+  background: #51c06c;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+form.example button:hover {
+  background: #51c06c;
+}
+
+form.example button i {
+  margin: 0;
+}
+
+.table-data__tool-right {
+  margin-bottom: 12px;
+}
+
+.table-data__tool-right a {
+  font-size: 16px;
+}
+
+body { background-color: #f2f2f2; }
+table { border-collapse: collapse; width: 100%; max-width: 800px; margin: 20px auto; background-color: #fff; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+table th { background-color: #f2f2f2; font-weight: bold; text-align: left; padding: 10px; border: 1px solid #ddd; }
+table td { padding: 10px; border: 1px solid #ddd; }
+#search-box { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; }
+#start-date, #end-date { padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-left: 5px; margin-right: 10px; }
+#search-button { padding: 10px; border: none; border-radius: 5px; background-color: #4CAF50; color: #fff; cursor: pointer; }
+#search-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px; /* Espacement entre les éléments */
+    padding: 10px;
+    background-color: #e8f5e9; /* Couleur de fond verte claire */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#search-box label {
+    font-size: 16px;
+    color: #333;
+}
+
+#search-box input[type=date] {
+    padding: 10px;
+    border: 1px solid #81c784; /* Bordure verte */
+    border-radius: 5px;
+    width: 100%; /* Pour s'assurer que les champs prennent toute la largeur disponible */
+    max-width: 300px; /* Largeur maximale pour éviter qu'ils deviennent trop larges */
+}
+
+#search-box button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #66bb6a; /* Couleur verte */
+    color: #fff;
+    cursor: pointer;
+    width: 100%; /* Pour que le bouton prenne toute la largeur disponible */
+    max-width: 300px; /* Largeur maximale pour éviter qu'il devienne trop large */
+}
+
+#search-box button:hover {
+    background-color: #4caf50; /* Couleur verte plus foncée au survol */
+}
+
+
+</style>
+</head>
+<body>
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- DATA TABLE -->
+                    <h3 class="title-5 m-b-35">Maintenance</h3>
+                    <div class="table-data__tool">
+                        <div class="filter-container">
+                            <!-- Formulaire de recherche -->
+                            <form class="example" id="searchForm" onsubmit="searchFunction(event)">
+                              <input type="text" id="myInput" placeholder="Chercher une Maintenan... .." title="Type in a name">
+                              
+                              <button type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+
+                          <div id="search-box">
+                              <label for="start-date">Date de début:</label>
+                              <input type="date" id="start-date" placeholder="Date de début">
+                              <label for="end-date">Date de fin:</label>
+                              <input type="date" id="end-date" placeholder="Date de fin">
+                              <button id="search-button" onclick="filterByDate()">Rechercher</button>
+                          </div>
+                          
+                          <br><br>  
+                            
+                            <div class="table-data__tool-right">
+                                <a href="#" data-toggle="modal" data-target="#modalAppointment" class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                    <i class="zmdi zmdi-plus"></i>Add Maintenance</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive table-responsive-data2">
+                        <table class="table table-data2">
+                            <thead>
+                                <tr>
+                                    <!--<th>Id</th>-->
+                                    <th>Date de début</th>
+                                    <th>Date de fin</th>
+                                    <th>Date de début & Time</th>
+                                    <th>Date de fin & Time</th>
+                                    <th>Nbr d’heures Maintenance de réparation</th>
+                                    <th>Description</th>
+                                    <!--<th>Panne</th>-->
+                                    <th>Département</th>
+                                    <th>Équipement</th>
+                                    <th>Ingénieur/Technicien</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {{#if hasMaintenance}} 
+                            <tbody> 
+                              <div class="row">
+                               {{#each Maintenances }} 
+                                <tr class="tr-shadow" data-department="{{this.DepartmentCode}}">
+                                    <!--<td>{{this.Id}}</td>-->
+                                    <td>{{this.StartDateNoTime}}</td>
+                                    <td>{{this.EndDateNoTime}}</td>
+                                    <td>{{this.StartDate}}</td>
+                                    <td>{{this.EndDate}}</td>
+                                    <td>{{this.Duration}}</td>
+                                    <td>{{this.Description}}</td>
+                                    <!--<td>{{this.BreakDownCode}}</td>-->
+                                    <td>{{this.Department}}</td>
+                                    <td>
+                                        <img src="images/{{this.EquipmentImage}}" style="height: 50px; width:50px; border-radius: 50%;" >
+                                        {{this.EquipmentName}}-{{this.EquipmentCode}}
+                                    </td>
+                                    <td>
+                                        <img src="images/{{this.ClinicalEngineerImage}}" style="height: 50px; width:50px; border-radius: 50%;" >
+                                        {{this.ClinicalEngineer}}
+                                    </td>
+                                    <td>
+                                       <div class="table-data-feature">
+                                            <a href="/maintenance/edit/{{ this.Id }}" class="item" data-toggle="tooltip" data-placement="top" title="Modifier">
+                                                <i class="zmdi zmdi-edit"></i>
+                                            </a>
+                                            <a href="/maintenance/delete/{{ this.Id }}" class="item" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                                                <i class="zmdi zmdi-delete"></i>
+                                            </a>        
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="spacer"></tr>
+                              {{/each}} 
+                              </div>
+                             </tbody>
+                           {{/if}} 
+                        </table>
+                    </div>
+                    <!-- END DATA TABLE -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- POPUP-->
+<div class="modal fade" id="modalAppointment" tabindex="-1" role="dialog" aria-labelledby="modalAppointmentLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <form method="POST" action="/maintenance/add">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="login-logo">
+                    <img src="images/icon/onda_logo.png" width="64" height="64" alt="Cool Admin" /> <strong>ONDA</strong></a>
+                </div>
+                <div class="login-form">
+                    <div class="form-group">
+                        <label class="form-control-label">Ingénieur/Technicien</label>
+                        <select name="DSSN" required id="select" class="form-control">
+                            {{#each Engineers}}
+                                <option value="{{this.DSSN}}">{{this.FName}} {{this.LName}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Code de panne</label>
+                        <select name="BreakDownID" required id="select" class="form-control">
+                            {{#each breakDowns}}
+                                <option value="{{this.Code}}"> {{this.Date}} ({{this.EquipmentName}} - {{this.EquipmentCode}}) {{this.Reason}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                            <label class=" form-control-label">Date de début</label>
+                            <input type="date"  required name="StartDateNoTime" placeholder="Enter Start Date" class="form-control">
+                        </div>
+                         <div class="form-group">
+                            <label class=" form-control-label">Date de fin</label>
+                            <input type="date"  required name="EndDateNoTime" placeholder="Enter End Date" class="form-control">
+                        </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Date de début & Time</label>
+                        <input type="datetime-local" required name="StartDate" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Date de fin & Time</label>
+                        <input type="datetime-local" required name="EndDate" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Description</label>
+                        <input type="text" required name="Description" placeholder="Entrez une Description" class="form-control">
+                    </div>
+                    <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">ADD</button>
+                </div>
+            </form>
+          </div>  
+        </div>
+    </div>     
+</div>  
+
+<script>
+
+ 
+function filterByDate() {
+    // Récupérer les valeurs des dates d'entrée
+    var startDate = document.getElementById("start-date").value;
+    var endDate = document.getElementById("end-date").value;
+
+    // Convertir les dates en format comparable
+    var start = new Date(startDate).getTime();
+    var end = new Date(endDate).getTime();
+
+    // Récupérer toutes les lignes du tableau
+    var table = document.querySelector(".table-data2");
+    var rows = table.querySelectorAll("tbody tr");
+
+    // Boucler à travers les lignes pour afficher ou masquer en fonction du filtre de date
+    rows.forEach(function(row) {
+        var startDateCell = row.querySelector("td:nth-child(1)"); // La première colonne est la date de début
+        var endDateCell = row.querySelector("td:nth-child(2)");   // La deuxième colonne est la date de fin
+
+        if (startDateCell && endDateCell) {
+            var rowStartDate = new Date(startDateCell.textContent).getTime();
+            var rowEndDate = new Date(endDateCell.textContent).getTime();
+
+            // Vérifier si les dates de la ligne sont dans la plage
+            if ((isNaN(start) || rowStartDate >= start) && (isNaN(end) || rowEndDate <= end)) {
+                row.style.display = ""; // Affiche la ligne si elle correspond au filtre
+            } else {
+                row.style.display = "none"; // Masque la ligne si elle ne correspond pas
+            }
+        }
+    });
+}
+
+
+
+
+ 
+function searchFunction(event) {
+  // Empêche la soumission normale du formulaire
+  event.preventDefault();
+
+  var input, filter, table, rows, cell, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase(); // Valeur de la barre de recherche convertie en majuscules
+  table = document.querySelector(".table-data2");
+  rows = table.querySelectorAll("tbody tr");
+
+  for (i = 0; i < rows.length; i++) {
+    cell = rows[i].querySelector("td:nth-child(8)"); // Sélecteur pour la colonne à filtrer
+    if (cell) {
+      txtValue = cell.textContent || cell.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1 || filter === '') {
+        rows[i].style.display = ""; // Affiche la ligne si elle correspond au filtre
+      } else {
+        rows[i].style.display = "none"; // Masque la ligne si elle ne correspond pas
+      }
+    }
+  }
+}
+
+</script>
+
+</body>
+</html>
